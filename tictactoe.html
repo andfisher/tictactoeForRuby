@@ -1,0 +1,129 @@
+<DOCTYPE html>
+<html>
+	<head>
+		<title>Ruby's Tic Tac Toe</title>
+	</head>
+	<body>
+		<h1>Ruby's Tic Tac Toe</h1>
+		
+		<style>
+			
+			#ticTacToe {
+				background : white;
+				border: 10px solid black;
+				width: 900px;
+		
+				height: 900px;
+			}
+			
+			#ticTacToe > div {
+				height: 33.333%;
+				width: 33.333%;
+				outline: 1px dotted #cdcdcd;
+				float: left;
+				text-align: center;
+				color: Black;
+				font-size: 10em;
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			#ticTacToe > div:nth-child(n3) {
+				clear: both;
+			}
+			
+		</style>
+		
+		<div id="ticTacToe"></div>
+		<button id="reset">Reset</button>
+		
+		<script type="text/javascript">
+		
+			(function tictactoe() {
+				let button = document.getElementById('reset');
+				let grid = document.getElementById('ticTacToe');
+				let i;
+				let squares = [];
+				let turn = 0;
+				
+				let vals = ['X', 'O'];
+				let choice;
+				let cpu;
+				
+				let solutions = [
+					// (3) Horizontal wins
+					[0, 1, 2],
+					[3, 4, 5],
+					[6, 7, 8],
+					
+					// (3) Verical wins
+					[0, 3, 6],
+					[1, 4, 7],
+					[2, 5, 8],
+					
+					// (2) Diagonal wins
+					[0, 4, 8],
+					[2, 4, 6],
+				];
+				
+				for (i = 0; i < 9; i++) {
+				
+					let square = document.createElement('div'); 
+
+					squares.push(square);
+				
+					grid.appendChild(square);
+					
+					square.addEventListener('click', function() {
+						
+						if (turn % 2 === 0 || cpu === false) {
+					 
+							if (this.innerHTML === '') {
+								if (turn % 2 === 0) {
+									this.innerHTML = vals[choice ? 0 : 1];
+								} else {
+									this.innerHTML = vals[choice ? 1 : 0];
+								}
+								turn++;
+							}
+						
+						} else {
+							//generate random place to go for computer's turn.
+							let cpuchoice;
+							let n;
+							for (n = 0; n < 9; n++) {
+								if (squares[n].innerHTML === '') {
+									squares[n].innerHTML = vals[choice ? 1 : 0];
+									break;
+								}
+							}
+							turn++;
+						}
+					}, true);
+				}
+				//When we click on button, reset the grid
+				button.addEventListener('click', function() {
+					for (i = 0; i < 9; i++) {
+						squares[i].innerHTML = '';
+					}
+					turn = 0;
+					cpu = opponent();
+					choice = playerDecide();
+				}, true);
+				
+				function playerDecide() {
+					return confirm('Is player 1 X?');
+				}
+				
+				function opponent() {
+					return confirm('Play against computer?');
+				}
+				
+				cpu = opponent();
+				choice = playerDecide();
+			})();
+		
+		</script>
+		
+	</body>
+</html>
